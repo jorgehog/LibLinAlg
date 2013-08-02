@@ -10,6 +10,8 @@ Version iteration with whole numbers indicates major changes since the previous 
 
 * LibLinAlg is now licensed under GNU GPL v3
 
+* Added assertion statements to improve feedback to users.
+
 * Changed the class member names in the following manner:
       genMat -> Matrix
 	  strMat -> StringMatrix
