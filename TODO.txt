@@ -1,0 +1,6 @@
+-smarter resize memory keeper
+-subClass 33 44 numMat
+--add rotmat support
+--hardcode YPR matmult?
+
+

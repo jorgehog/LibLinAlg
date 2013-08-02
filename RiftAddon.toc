@@ -17,7 +17,7 @@ Environment = "2.3"
 
 RunOnStartup = {
   "main.lua",
-  "LibLinAlg_genMat.lua",
-  "LibLinAlg_numMat.lua",
-  "LibLinAlg_strMat.lua"
+  "LibLinAlg_Matrix.lua",
+  "LibLinAlg_MathMatrix.lua",
+  "LibLinAlg_StringMatrix.lua"
 }

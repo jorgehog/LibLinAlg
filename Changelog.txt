@@ -1,1 +1,45 @@
-Changelog.
+
+**************************************************************************************************************
+Versions ending with an odd number are unstable releases not tested (will be the case for all alpha versions).
+Version iteration at the first decimal index implies minor additions.
+Version iteration with whole numbers indicates major changes since the previous whole number change.
+**************************************************************************************************************
+
+
+---------- Changed from 0.01 to 0.11
+
+* LibLinAlg is now licensed under GNU GPL v3
+
+* Changed the class member names in the following manner:
+      genMat -> Matrix
+	  strMat -> StringMatrix
+	  numMat -> MathMatrix
+
+* Removed using concatenation operator ".." for joining columns of matrices. This functionality is now
+  available through the joinColumns method.
+* Added joinRows method.
+
+* Added __tostring overloading such that printing matrices directly works.
+
+* Matrices can be initialized directly from Lua standard tables.
+  - if the table is 1D with length n, the result will be a 1 x n matrix. Post transposing will yield a column vector.   
+  - if the table is 2D with size n x m, the result will be a n x m matrix.
+
+* The following additional functionality has been implemented:
+  - popColumn(i)           : Removes column i from the matrix and returns it as a table.
+  - popRow(i)              : Same as for a column but for a row.
+  - swapColumns(i, j)      : Swaps the location of column i and column j in the matrix.
+  - swapRows(i, j)         : Same as for columns but for rows.
+  - insertColumns(A, i)    : Inserts the columns of matrix A into the current matrix, starting from column index i.
+  - insertRows(A, i)       : Same as for columns only for rows.
+  - splitMatrixColumns(i)  : Splits the matrix into two parts at column index i. The right split will contain column i.
+  - splitMatrixRows(i)     : Same as for columns only for rows.
+  
+* Internal functions only available to developers:
+  -  _getNewMat()          : Will return the class of the current object, 
+										such that A = self._getNewMat()(self.getShape()) is equal to self.
+  -  isMatrix              : A brute force flag used to distinguish LibLinAlg instances from other tables.
+  -  setMatrixFromTable(t) : Given a table t, the matrix is altered to represent the table data.
+  -  getElementsAsTable(c) : Returns a table containing all the elements of the matrix. Rowwise if not 'c' is set to true.  
+  
+----------

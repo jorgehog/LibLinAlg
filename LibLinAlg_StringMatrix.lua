@@ -1,13 +1,16 @@
 
 local addFunc = function(self, other) return self.strAdd(other) end
+local concatFunc = function (self, other) return self.strConcat(other) end 
+print("String library loaded")
 
-function Library.LibLinAlg.strMat(__n, __m, blank)
+function Library.LibLinAlg.StringMatrix(__n, __m, blank)
 
-	local base = Library.LibLinAlg.genMat(__n, __m, false)
+	local base = Library.LibLinAlg.Matrix(__n, __m, false)
 	local self = setmetatable({}, 
 		{
 			__call = callFunc,
 			__eq = eqFunc,
+			__tostring = strFunc,
 			__concat = concatFunc,
 			__add = addFunc,
 			__index = base
@@ -17,7 +20,17 @@ function Library.LibLinAlg.strMat(__n, __m, blank)
 	
 	--Returns the matrix type
 	function self.getType()
-		return "strMat"
+		return "StringMatrix"
+	end
+	
+	function self.strConcat(other)
+	
+		local n, m = self.getShape()
+		local concat = Library.LibLinAlg.StringMatrix(n, m, false)
+		concat.foreach(true, function (i, j, _self, _other) return _self(i, j) .. _other(i, j) end, self, other)
+		
+		return concat
+	
 	end
 	
 	--Concatinates the strings for each element.
@@ -28,7 +41,7 @@ function Library.LibLinAlg.strMat(__n, __m, blank)
 		
 		if _n ~= n or _m ~= m then self.Error("Dimension mismatch in matrix addition."); return end
 		
-		res = Library.LibLinAlg.strMat(n, m, false)
+		res = Library.LibLinAlg.StringMatrix(n, m, false)
 		
 		for i = 1, n, 1 do
 			for j = 1, m, 1 do
@@ -69,4 +82,4 @@ function Library.LibLinAlg.strMat(__n, __m, blank)
 	
 end
 
-function Library.LibLinAlg.strVec(n, blank) return Library.LibLinAlg.strMat(n, 1, blank) end
+function Library.LibLinAlg.strVec(n, blank) return Library.LibLinAlg.StringMatrix(n, 1, blank) end

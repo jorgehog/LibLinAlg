@@ -4,15 +4,19 @@ local addFunc = function(self, other) return self.matrAdd(other) end
 local unmFunc = function(self) tmp = self.copy(); tmp.scalarMult(-1); return tmp end
 local subFunc = function(self, other) return self + (-other) end
 local modFunc = function(self, other) return self.compMult(other) end
+local strFuncMath = function (self) return self.dumpString() end
 
-function Library.LibLinAlg.numMat(_n, _m, toZero)
+print("math library loaded")
+
+function Library.LibLinAlg.MathMatrix(_n, _m, toZero)
  
-	local base = Library.LibLinAlg.genMat(_n, _m, toZero)
+	local base = Library.LibLinAlg.Matrix(_n, _m, toZero)
 	local self = setmetatable({}, 
 		{
 			__call = callFunc,
 			__eq = eqFunc,
-			__concat = concatFunc,
+			__tostring = strFuncMath,
+			--__concat = concatFunc,
 			__mul = mulFunc,
 			__add = addFunc,
 			__unm = unmFunc,
@@ -25,7 +29,7 @@ function Library.LibLinAlg.numMat(_n, _m, toZero)
 	
 	--returns the type of the matrix
 	function self.getType() 
-		return "numMat" 
+		return "MathMatrix" 
 	end
 	
 	--Returns a matrix whose components are the componentwize multiplication of self and other
@@ -33,7 +37,7 @@ function Library.LibLinAlg.numMat(_n, _m, toZero)
 		local n, m = self.getShape()
 		local _n, _m = other.getShape()
 		
-		res = Library.LibLinAlg.numMat(n, m, false)
+		res = Library.LibLinAlg.MathMatrix(n, m, false)
 		
 		if not n or not _n or not m or not _m or n == 0 or _n == 0 or m == 0 or _m == 0 then self.Error("Empty matrix in comp matr mult"); return end
 		
@@ -50,13 +54,13 @@ function Library.LibLinAlg.numMat(_n, _m, toZero)
 	end
 	
 	--Dumps a clean printout of the matrix to stdout
-	function self.dump()
+	function self.dumpString()
 		
 		local n, m = self.getShape()
 		
-		if not self.at then print("[matrix 0x0]"); return end
+		if #self.at == 0 then return "[MathMatrix 0x0]" end
 		
-		local s = string.format("[" .. self.getType() .. " %dx%d]", n, m) .. "\n"
+		local s = string.format("[MathMatrix %dx%d]", n, m) .. "\n"
 		
 		for i = 1, n, 1 do
 			for j = 1, m, 1 do
@@ -82,7 +86,7 @@ function Library.LibLinAlg.numMat(_n, _m, toZero)
 			
 		end
 		
-		print(s)
+		return s
 		
 	end
 	
@@ -143,7 +147,7 @@ function Library.LibLinAlg.numMat(_n, _m, toZero)
 		if m ~= _n then self.Error("Dimensions mismatch in matrix multiplication."); return end
 		
 		local Aij = 0
-		local res = Library.LibLinAlg.numMat(n, _m, false)
+		local res = Library.LibLinAlg.MathMatrix(n, _m, false)
 		
 		for i = 1, n, 1 do
 			for j= 1, _m, 1 do
@@ -170,7 +174,7 @@ function Library.LibLinAlg.numMat(_n, _m, toZero)
 		
 		if _n ~= n or _m ~= m then self.Error("Dimension mismatch in matrix addition."); return end
 		
-		res = Library.LibLinAlg.numMat(n, m, false)
+		res = Library.LibLinAlg.MathMatrix(n, m, false)
 		
 		for i = 1, n, 1 do
 			for j = 1, m, 1 do
@@ -187,5 +191,5 @@ function Library.LibLinAlg.numMat(_n, _m, toZero)
 end
 
 --Predefinitions of vectors for cleaner code
-function Library.LibLinAlg.numColVec(__n, toZero) return Library.LibLinAlg.numMat(__n, 1, toZero) end
-function Library.LibLinAlg.numRowVec(__m, toZero) return Library.LibLinAlg.numMat(1, __m, toZero) end
+function Library.LibLinAlg.numColVec(__n, toZero) return Library.LibLinAlg.MathMatrix(__n, 1, toZero) end
+function Library.LibLinAlg.numRowVec(__m, toZero) return Library.LibLinAlg.MathMatrix(1, __m, toZero) end
