@@ -1,0 +1,23 @@
+--Library for easy use of matrix / vector operations on numerical (mathematical) matrices, 
+--string matrices, or general matrices. 
+
+Identifier = "LibLinAlg"
+
+Name = "Lib Lin Alg"
+NameShort = "LLA"
+
+Description = "Library for handling matrices in and easy-to-use intuitive manner."
+
+Author = "Olandria"
+Email = "jorgen.hogberget@gmail.com"
+
+Version = "0.01"
+
+Environment = "2.3"
+
+RunOnStartup = {
+  "main.lua",
+  "LibLinAlg_genMat.lua",
+  "LibLinAlg_numMat.lua",
+  "LibLinAlg_strMat.lua"
+}
